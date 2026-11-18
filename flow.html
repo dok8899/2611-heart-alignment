@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="心靈契合產品流程、資料互動與ER關係圖"><title>心靈契合｜產品流程與資料關係</title>
+<style>
+:root{color-scheme:light;--ink:#263d35;--muted:#687c73;--paper:#fbfcf9;--panel:#fff;--line:#dce7df;--sage:#557465;--sage-soft:#edf3ed;--gold:#b99b63}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.7 system-ui,-apple-system,"Segoe UI","Noto Sans TC",sans-serif}.hero{padding:42px max(22px,calc((100vw - 1240px)/2));background:linear-gradient(125deg,#f0f5ef,#faf9f3);border-bottom:1px solid var(--line)}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:700}.hero h1{font-family:Georgia,"Noto Serif TC",serif;font-size:clamp(28px,4vw,44px);line-height:1.2;margin:8px 0}.hero p{max-width:900px;color:var(--muted);margin:8px 0}.badge{display:inline-block;border:1px solid #cddbd0;border-radius:99px;background:#ffffffb8;padding:3px 11px;margin-top:8px;font-size:12px}.wrap{max-width:1280px;margin:auto;padding:28px 22px 60px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tabs button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;border-radius:99px;cursor:pointer;font:inherit}.tabs button.active{background:var(--sage);border-color:var(--sage);color:#fff}.panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 14px 38px #263d350a}.panel.active{display:block}.panel h2{font-family:Georgia,"Noto Serif TC",serif;margin:0 0 4px;font-size:25px}.desc{margin:0 0 18px;color:var(--muted)}.diagram{overflow:auto;border:1px solid #e7eee8;background:#fff;border-radius:12px;padding:18px;min-height:240px}.mermaid{min-width:max-content}.source{margin-top:14px}.source summary{cursor:pointer;color:var(--sage);font-weight:650}.source pre{white-space:pre-wrap;overflow:auto;max-height:460px;background:#f5f8f4;padding:14px;border-radius:10px;font:12px/1.55 ui-monospace,Consolas,monospace}.notes{margin-top:20px;padding:18px 20px;background:var(--sage-soft);border:1px solid var(--line);border-left:4px solid var(--sage);border-radius:10px}.notes h3{margin:0 0 6px;font-size:16px}.notes ul{margin:6px 0;padding-left:20px}.notes li{margin:4px 0}.fallback{display:none;margin-top:12px;padding:12px;background:#fff4df;border-radius:8px;color:#654b24}.footer{border-top:1px solid var(--line);margin-top:22px;padding-top:16px;color:var(--muted);font-size:13px}@media(max-width:640px){.hero{padding:28px 18px}.wrap{padding:18px 12px 40px}.panel{padding:14px}.tabs button{padding:8px 12px}}
+</style></head><body><header class="hero"><span class="eyebrow">FLOW PLANNING · PRD v1.16</span><h1>產品旅程｜互動與資料關係</h1><p>呈現免費前置入口、三款封閉營與 30 天四幕的關係，並整理申請、CRM、錄音同意及資料保存流程。尚未核准的營運與服務細節會明確標示待定。</p><span class="badge">需求基準：docs/prd.md v1.16</span></header><main class="wrap"><nav class="tabs" aria-label="流程圖切換"><button class="active" data-tab="flow">產品旅程</button><button data-tab="sequence">互動循序</button><button data-tab="er">資料關係</button></nav><section class="panel active" id="flow"><h2>產品路徑與申請旅程</h2><p class="desc">免費前置體驗、三款封閉營與四幕敘事、申請／意向／社群／海選分流。</p><div class="diagram"><pre class="mermaid">flowchart TD
+    A[訪客進入雙語網站] --&gt; B{選擇探索路徑}
+    B --&gt;|免費線上語音樹洞| C[查看每週免費入口與開放狀態]
+    C --&gt; C1{正式場次已開放？}
+    C1 --&gt;|是| C2[依核准報名流程參與]
+    C1 --&gt;|否或流程未定| C3[查看通知／意向入口；不虛構可用場次]
+    B --&gt;|城市樹洞夜| D[查看台北／新竹、約3.5小時與NT$8,800建議價]
+    D --&gt; D1{場次及申請方式已核准？}
+    D1 --&gt;|是| D2[依公布場次與核准方式提出申請]
+    D1 --&gt;|否| D3[查看開放狀態與待公告資訊]
+    B --&gt;|三款封閉營| E[比較封閉營與已公布月份／地區]
+    E --&gt; E1{選擇營隊}
+    E1 --&gt;|一：心靈樹洞 NT$88,000| F[封閉營一《心靈樹洞》；3天2夜]
+    E1 --&gt;|二：共好之間 NT$188,000| G[封閉營二《共好之間》；核心5日]
+    E1 --&gt;|三：風起之時 NT$238,000| H[封閉營三《風起之時》；核心5日]
+    H --&gt; H1{場次類型}
+    H1 --&gt;|一般場| H2[不拍攝]
+    H1 --&gt;|自願拍攝特別場| H3[閱讀獨立拍攝告知與授權；未核准前不開放]
+    F --&gt; J{選擇正式申請或意向登記}
+    G --&gt; J
+    H2 --&gt; J
+    H3 --&gt; J
+    J --&gt;|正式申請| K{申請入口來源}
+    K --&gt;|產品／月份詳情| L[沿用已選產品與月份]
+    K --&gt;|首頁| M[先選產品階段與月份]
+    L --&gt; N[單一快速申請入口]
+    M --&gt; N
+    N --&gt; O{填寫方式}
+    O --&gt;|AI助填| P[逐題整理稱呼／年齡、聯絡方式、參與期待]
+    P --&gt; P1[申請者確認／編輯欄位與短標籤；可刪除標籤]
+    O --&gt;|自行填寫| Q[逐欄輸入基本資料並可返回修改]
+    P1 --&gt; R[兩種模式共用確認步驟]
+    Q --&gt; R
+    R --&gt; S[選必填性別並上傳2至6張照片]
+    S --&gt; T{補充資料或履歷解析？}
+    T --&gt;|略過| W[選擇月份並確認聲明]
+    T --&gt;|手動補充| U[選填標籤；區塊底部自由文字亦選填]
+    T --&gt;|同意後履歷解析| V[OpenAI產生可編輯欄位草稿；申請者確認後帶入]
+    U --&gt; W
+    V --&gt; W
+    W --&gt; W1{所選月份收件狀態}
+    W1 --&gt;|可申請| X[確認成年單身聲明、安全公約、個資告知及錄音告知]
+    W1 --&gt;|額滿或截止且仍收件| X1[標示候補；主辦方人工挑選] --&gt; X
+    W1 --&gt;|營運已關閉收件| W2[提示該月份不可送出；保留其他已填資料] --&gt; W
+    X --&gt; Y[送出前LINE登入／註冊]
+    Y --&gt; Y1{登入與欄位驗證成功？}
+    Y1 --&gt;|否| Y2[指出錯誤並保留資料，可重試／返回]
+    Y2 --&gt; Y
+    Y1 --&gt;|是| Z[建立正式申請、月份關聯與同意紀錄]
+    Z --&gt; Z1{資料寫入成功？}
+    Z1 --&gt;|否| Z2[顯示送出失敗；保留表單供重試]
+    Z2 --&gt; Y
+    Z1 --&gt;|是| AA[畫面顯示已收到／候補並寄Email確認信]
+    AA --&gt; AB[CRM由授權營運人員檢視、更新狀態、記錄聯絡]
+    AB --&gt; AC[主辦方人工聯絡後續付款；網站不收款]
+    J --&gt;|低門檻意向| AD[填稱呼、年齡、性別、2至6張照片、聯絡及產品／月份]
+    AD --&gt; AE[完成成年單身聲明與必要告知後提交]
+    AE --&gt; AF[CRM收件；通知方式依核准規則]
+    B --&gt;|免費社群| AG[查看社群介紹與候補通知登記]
+    AG --&gt; AH[社群開放後依核准方式通知；未開放不顯示加入連結]
+    B --&gt;|節目海選| AI[獨立海選意向表單]
+    AI --&gt; AJ[CRM收件並由主辦方初審]
+    AJ --&gt; AK{初審通過？}
+    AK --&gt;|否| AL[依核准方式通知／結案]
+    AK --&gt;|是| AM[提供詳細資格與獨立自願授權流程]
+    AM --&gt; AN[海選意向不等於拍攝授權]
+    B --&gt;|年度會籍| AO[瀏覽樹洞 NT$138,000／契合 NT$248,000／真實契合黑卡 NT$520,000每年]
+    AO --&gt; AP[了解聯絡或申請方式；權益與資格待核定]
+    subgraph STORY[30天節目敘事主線（不代表四項必購）]
+        ACT1[第一幕「聽見」Day 1–3] --&gt; ACT2[第二幕「看見」Day 4–10]
+        ACT2 --&gt; ACT3[第三幕「並肩」Day 11–17]
+        ACT3 --&gt; AQ[第四幕「選擇」Day 18–30；自主相處]
+    end
+    F -.產品對應.-&gt; ACT1
+    G -.產品對應.-&gt; ACT2
+    H -.產品對應.-&gt; ACT3
+    AQ --&gt; AR[自主決定是否繼續；共識卡交付方式待核定]
+    AR --&gt; AS{是否自願了解年度會籍？}
+    AS --&gt;|是| AO
+    AS --&gt;|否| AT[體驗路徑結束；不承諾配對結果]
+    F -.報名前明確同意錄音.-&gt; AU[四幕錄音：僅供AI個人報告與品質檢視]
+    G -.報名前明確同意錄音.-&gt; AU
+    H -.報名前明確同意錄音.-&gt; AU
+    AU --&gt; AV[指定授權人員存取；不作節目素材]
+    AV --&gt; AW[自該場活動結束日起保存3年後刪除]</pre></div><details class="source"><summary>查看 Mermaid 原始碼</summary><pre>flowchart TD
+    A[訪客進入雙語網站] --&gt; B{選擇探索路徑}
+    B --&gt;|免費線上語音樹洞| C[查看每週免費入口與開放狀態]
+    C --&gt; C1{正式場次已開放？}
+    C1 --&gt;|是| C2[依核准報名流程參與]
+    C1 --&gt;|否或流程未定| C3[查看通知／意向入口；不虛構可用場次]
+    B --&gt;|城市樹洞夜| D[查看台北／新竹、約3.5小時與NT$8,800建議價]
+    D --&gt; D1{場次及申請方式已核准？}
+    D1 --&gt;|是| D2[依公布場次與核准方式提出申請]
+    D1 --&gt;|否| D3[查看開放狀態與待公告資訊]
+    B --&gt;|三款封閉營| E[比較封閉營與已公布月份／地區]
+    E --&gt; E1{選擇營隊}
+    E1 --&gt;|一：心靈樹洞 NT$88,000| F[封閉營一《心靈樹洞》；3天2夜]
+    E1 --&gt;|二：共好之間 NT$188,000| G[封閉營二《共好之間》；核心5日]
+    E1 --&gt;|三：風起之時 NT$238,000| H[封閉營三《風起之時》；核心5日]
+    H --&gt; H1{場次類型}
+    H1 --&gt;|一般場| H2[不拍攝]
+    H1 --&gt;|自願拍攝特別場| H3[閱讀獨立拍攝告知與授權；未核准前不開放]
+    F --&gt; J{選擇正式申請或意向登記}
+    G --&gt; J
+    H2 --&gt; J
+    H3 --&gt; J
+    J --&gt;|正式申請| K{申請入口來源}
+    K --&gt;|產品／月份詳情| L[沿用已選產品與月份]
+    K --&gt;|首頁| M[先選產品階段與月份]
+    L --&gt; N[單一快速申請入口]
+    M --&gt; N
+    N --&gt; O{填寫方式}
+    O --&gt;|AI助填| P[逐題整理稱呼／年齡、聯絡方式、參與期待]
+    P --&gt; P1[申請者確認／編輯欄位與短標籤；可刪除標籤]
+    O --&gt;|自行填寫| Q[逐欄輸入基本資料並可返回修改]
+    P1 --&gt; R[兩種模式共用確認步驟]
+    Q --&gt; R
+    R --&gt; S[選必填性別並上傳2至6張照片]
+    S --&gt; T{補充資料或履歷解析？}
+    T --&gt;|略過| W[選擇月份並確認聲明]
+    T --&gt;|手動補充| U[選填標籤；區塊底部自由文字亦選填]
+    T --&gt;|同意後履歷解析| V[OpenAI產生可編輯欄位草稿；申請者確認後帶入]
+    U --&gt; W
+    V --&gt; W
+    W --&gt; W1{所選月份收件狀態}
+    W1 --&gt;|可申請| X[確認成年單身聲明、安全公約、個資告知及錄音告知]
+    W1 --&gt;|額滿或截止且仍收件| X1[標示候補；主辦方人工挑選] --&gt; X
+    W1 --&gt;|營運已關閉收件| W2[提示該月份不可送出；保留其他已填資料] --&gt; W
+    X --&gt; Y[送出前LINE登入／註冊]
+    Y --&gt; Y1{登入與欄位驗證成功？}
+    Y1 --&gt;|否| Y2[指出錯誤並保留資料，可重試／返回]
+    Y2 --&gt; Y
+    Y1 --&gt;|是| Z[建立正式申請、月份關聯與同意紀錄]
+    Z --&gt; Z1{資料寫入成功？}
+    Z1 --&gt;|否| Z2[顯示送出失敗；保留表單供重試]
+    Z2 --&gt; Y
+    Z1 --&gt;|是| AA[畫面顯示已收到／候補並寄Email確認信]
+    AA --&gt; AB[CRM由授權營運人員檢視、更新狀態、記錄聯絡]
+    AB --&gt; AC[主辦方人工聯絡後續付款；網站不收款]
+    J --&gt;|低門檻意向| AD[填稱呼、年齡、性別、2至6張照片、聯絡及產品／月份]
+    AD --&gt; AE[完成成年單身聲明與必要告知後提交]
+    AE --&gt; AF[CRM收件；通知方式依核准規則]
+    B --&gt;|免費社群| AG[查看社群介紹與候補通知登記]
+    AG --&gt; AH[社群開放後依核准方式通知；未開放不顯示加入連結]
+    B --&gt;|節目海選| AI[獨立海選意向表單]
+    AI --&gt; AJ[CRM收件並由主辦方初審]
+    AJ --&gt; AK{初審通過？}
+    AK --&gt;|否| AL[依核准方式通知／結案]
+    AK --&gt;|是| AM[提供詳細資格與獨立自願授權流程]
+    AM --&gt; AN[海選意向不等於拍攝授權]
+    B --&gt;|年度會籍| AO[瀏覽樹洞 NT$138,000／契合 NT$248,000／真實契合黑卡 NT$520,000每年]
+    AO --&gt; AP[了解聯絡或申請方式；權益與資格待核定]
+    subgraph STORY[30天節目敘事主線（不代表四項必購）]
+        ACT1[第一幕「聽見」Day 1–3] --&gt; ACT2[第二幕「看見」Day 4–10]
+        ACT2 --&gt; ACT3[第三幕「並肩」Day 11–17]
+        ACT3 --&gt; AQ[第四幕「選擇」Day 18–30；自主相處]
+    end
+    F -.產品對應.-&gt; ACT1
+    G -.產品對應.-&gt; ACT2
+    H -.產品對應.-&gt; ACT3
+    AQ --&gt; AR[自主決定是否繼續；共識卡交付方式待核定]
+    AR --&gt; AS{是否自願了解年度會籍？}
+    AS --&gt;|是| AO
+    AS --&gt;|否| AT[體驗路徑結束；不承諾配對結果]
+    F -.報名前明確同意錄音.-&gt; AU[四幕錄音：僅供AI個人報告與品質檢視]
+    G -.報名前明確同意錄音.-&gt; AU
+    H -.報名前明確同意錄音.-&gt; AU
+    AU --&gt; AV[指定授權人員存取；不作節目素材]
+    AV --&gt; AW[自該場活動結束日起保存3年後刪除]</pre></details></section><section class="panel" id="sequence"><h2>申請、CRM 與活動資料互動</h2><p class="desc">AI／履歷申請流程、人工 CRM 處理，以及獨立呈現的活動錄音處理。</p><div class="diagram"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor Visitor as 訪客／申請者
+    participant Web as React網站
+    participant API as Python服務
+    participant OpenAI as OpenAI API（申請助填／履歷解析）
+    participant LINE as LINE Login
+    participant DB as SQLite資料庫
+    participant Mail as Email服務（待定）
+    actor Operator as 授權營運人員
+    participant CRM as CRM後台
+    participant Audit as 稽核紀錄
+    participant EventTeam as 活動團隊
+    participant Recorder as 錄音／轉錄服務（待選）
+    participant ReportAI as 報告AI服務（待選）
+
+    Visitor-&gt;&gt;Web: 瀏覽免費語音、城市夜、封閉營與年度會籍
+    Web--&gt;&gt;Visitor: 顯示產品路徑、價格提案、四幕對應與開放狀態
+    Note over Web,Visitor: 免費語音／城市夜正式場次、會籍權益等未核定資訊需標示待公告
+    alt 正式活動申請
+        Visitor-&gt;&gt;Web: 從詳情頁快速申請，或首頁選階段／月份
+        Web--&gt;&gt;Visitor: 顯示AI助填／自行填寫選擇
+        alt AI助填
+            loop 三組逐題輸入
+                Visitor-&gt;&gt;Web: 輸入基本資料、聯絡方式或參與期待
+                Web-&gt;&gt;API: 傳送當次回答供欄位整理
+                API-&gt;&gt;OpenAI: 請求辨識欄位／產生期待短標籤
+                OpenAI--&gt;&gt;API: 回傳欄位草稿或未辨識欄位
+                API--&gt;&gt;Web: 回傳可編輯草稿
+                Web--&gt;&gt;Visitor: 顯示草稿；可補填、編輯或刪除短標籤
+            end
+        else 自行填寫
+            loop 一次一欄
+                Web--&gt;&gt;Visitor: 顯示目前欄位與返回／繼續操作
+                Visitor-&gt;&gt;Web: 輸入欄位值
+            end
+        end
+        Web--&gt;&gt;Visitor: 共用確認：性別、2至6張照片、選填補充資料
+        opt 申請者選擇履歷解析並同意
+            Visitor-&gt;&gt;Web: 上傳履歷檔案
+            Web-&gt;&gt;API: 傳送檔案與解析同意
+            API-&gt;&gt;OpenAI: 請求擷取履歷欄位草稿
+            OpenAI--&gt;&gt;API: 回傳欄位草稿或解析錯誤
+            API--&gt;&gt;Web: 回傳可編輯結果／錯誤提示
+            Web--&gt;&gt;Visitor: 申請者檢查並確認；可改手動或略過
+        end
+        Visitor-&gt;&gt;Web: 選擇月份、勾必要聲明及錄音告知同意
+        Web-&gt;&gt;API: 查詢月份狀態
+        API-&gt;&gt;DB: 讀取月份、狀態及收件開關
+        DB--&gt;&gt;API: 可申請／候補／收件關閉
+        API--&gt;&gt;Web: 回傳可申請狀態；不揭露精確名額
+        Web--&gt;&gt;Visitor: 確認月份與候補提示
+        Visitor-&gt;&gt;LINE: 送出前登入／註冊
+        LINE--&gt;&gt;Web: 回傳登入識別或登入失敗
+        alt 登入成功且欄位有效
+            Visitor-&gt;&gt;Web: 確認送出
+            Web-&gt;&gt;API: 提交申請、月份、確認欄位與同意紀錄
+            API-&gt;&gt;API: 驗證必填欄位、照片規格、聲明及月份收件狀態
+            API-&gt;&gt;DB: 寫入申請、照片參照、月份關聯與同意
+            DB--&gt;&gt;API: 申請編號／寫入失敗
+            alt 寫入成功
+                API--&gt;&gt;Web: 回傳已收到／候補狀態
+                Web--&gt;&gt;Visitor: 顯示成功結果；網站不收款
+                API-&gt;&gt;Mail: 寄送申請確認信
+                Mail--&gt;&gt;Visitor: Email確認通知（寄送服務待選）
+            else 寫入失敗
+                API--&gt;&gt;Web: 回傳提交失敗
+                Web--&gt;&gt;Visitor: 保留表單並提供重試
+            end
+        else 登入取消、驗證失敗或收件已關閉
+            Web--&gt;&gt;Visitor: 說明原因並保留可修正欄位
+        end
+    else 低門檻意向登記
+        Visitor-&gt;&gt;Web: 填寫基本資料、性別、照片與產品／月份
+        Web-&gt;&gt;API: 提交意向資料及必要告知
+        API-&gt;&gt;DB: 建立獨立意向登記
+        DB--&gt;&gt;API: 登記結果
+        API--&gt;&gt;Web: 回傳送出狀態
+        Note over Web,API: Email／電話規則與確認通知方式尚待定義
+    else 社群候補或節目海選意向
+        Visitor-&gt;&gt;Web: 提交獨立通知／海選意向表單
+        Web-&gt;&gt;API: 提交表單與用途同意
+        API-&gt;&gt;DB: 建立對應類型的獨立紀錄
+        DB--&gt;&gt;API: 登記結果
+        API--&gt;&gt;Web: 回傳送出結果
+        Note over Visitor,Web: 海選送出不等於拍攝授權；初審後才提供詳細資格
+    end
+
+    Operator-&gt;&gt;CRM: 檢視申請／意向、更新狀態、記錄聯絡
+    CRM-&gt;&gt;API: 查詢或更新指定紀錄
+    API-&gt;&gt;DB: 讀取／寫入紀錄
+    API-&gt;&gt;Audit: 記錄檢視、修改、匯出、刪除事件
+    Audit--&gt;&gt;API: 稽核事件已記錄
+    API--&gt;&gt;CRM: 回傳紀錄與操作結果
+    Note over Operator,CRM: 所有授權營運人員可查看全部CRM資料；不得稱為人員隔離
+    Operator--&gt;&gt;Visitor: 人工聯絡；確認後另行通知付款安排
+
+    opt 四幕活動之錄音與報告（活動服務流程；供應商待定）
+        Visitor-&gt;&gt;EventTeam: 報名前明確同意錄音
+        EventTeam-&gt;&gt;Recorder: 活動錄音／必要轉錄
+        Note over EventTeam,Recorder: 用途限AI個人報告與品質檢視；不作節目素材
+        Recorder--&gt;&gt;ReportAI: 傳送核准處理所需音訊／暫存逐字稿
+        ReportAI--&gt;&gt;EventTeam: 產生個人報告草稿
+        EventTeam-&gt;&gt;EventTeam: 指定授權人員進行品質檢視
+        EventTeam-&gt;&gt;DB: 保存音檔及可識別報告的活動結束日／刪除日期
+        Note over Recorder,DB: 服務商、逐字稿暫存及刪除、本人交付方式待核定；核定前不得傳送真實錄音
+        EventTeam-&gt;&gt;DB: 活動結束日起滿3年刪除音檔及可識別報告
+    end</pre></div><details class="source"><summary>查看 Mermaid 原始碼</summary><pre>sequenceDiagram
+    autonumber
+    actor Visitor as 訪客／申請者
+    participant Web as React網站
+    participant API as Python服務
+    participant OpenAI as OpenAI API（申請助填／履歷解析）
+    participant LINE as LINE Login
+    participant DB as SQLite資料庫
+    participant Mail as Email服務（待定）
+    actor Operator as 授權營運人員
+    participant CRM as CRM後台
+    participant Audit as 稽核紀錄
+    participant EventTeam as 活動團隊
+    participant Recorder as 錄音／轉錄服務（待選）
+    participant ReportAI as 報告AI服務（待選）
+
+    Visitor-&gt;&gt;Web: 瀏覽免費語音、城市夜、封閉營與年度會籍
+    Web--&gt;&gt;Visitor: 顯示產品路徑、價格提案、四幕對應與開放狀態
+    Note over Web,Visitor: 免費語音／城市夜正式場次、會籍權益等未核定資訊需標示待公告
+    alt 正式活動申請
+        Visitor-&gt;&gt;Web: 從詳情頁快速申請，或首頁選階段／月份
+        Web--&gt;&gt;Visitor: 顯示AI助填／自行填寫選擇
+        alt AI助填
+            loop 三組逐題輸入
+                Visitor-&gt;&gt;Web: 輸入基本資料、聯絡方式或參與期待
+                Web-&gt;&gt;API: 傳送當次回答供欄位整理
+                API-&gt;&gt;OpenAI: 請求辨識欄位／產生期待短標籤
+                OpenAI--&gt;&gt;API: 回傳欄位草稿或未辨識欄位
+                API--&gt;&gt;Web: 回傳可編輯草稿
+                Web--&gt;&gt;Visitor: 顯示草稿；可補填、編輯或刪除短標籤
+            end
+        else 自行填寫
+            loop 一次一欄
+                Web--&gt;&gt;Visitor: 顯示目前欄位與返回／繼續操作
+                Visitor-&gt;&gt;Web: 輸入欄位值
+            end
+        end
+        Web--&gt;&gt;Visitor: 共用確認：性別、2至6張照片、選填補充資料
+        opt 申請者選擇履歷解析並同意
+            Visitor-&gt;&gt;Web: 上傳履歷檔案
+            Web-&gt;&gt;API: 傳送檔案與解析同意
+            API-&gt;&gt;OpenAI: 請求擷取履歷欄位草稿
+            OpenAI--&gt;&gt;API: 回傳欄位草稿或解析錯誤
+            API--&gt;&gt;Web: 回傳可編輯結果／錯誤提示
+            Web--&gt;&gt;Visitor: 申請者檢查並確認；可改手動或略過
+        end
+        Visitor-&gt;&gt;Web: 選擇月份、勾必要聲明及錄音告知同意
+        Web-&gt;&gt;API: 查詢月份狀態
+        API-&gt;&gt;DB: 讀取月份、狀態及收件開關
+        DB--&gt;&gt;API: 可申請／候補／收件關閉
+        API--&gt;&gt;Web: 回傳可申請狀態；不揭露精確名額
+        Web--&gt;&gt;Visitor: 確認月份與候補提示
+        Visitor-&gt;&gt;LINE: 送出前登入／註冊
+        LINE--&gt;&gt;Web: 回傳登入識別或登入失敗
+        alt 登入成功且欄位有效
+            Visitor-&gt;&gt;Web: 確認送出
+            Web-&gt;&gt;API: 提交申請、月份、確認欄位與同意紀錄
+            API-&gt;&gt;API: 驗證必填欄位、照片規格、聲明及月份收件狀態
+            API-&gt;&gt;DB: 寫入申請、照片參照、月份關聯與同意
+            DB--&gt;&gt;API: 申請編號／寫入失敗
+            alt 寫入成功
+                API--&gt;&gt;Web: 回傳已收到／候補狀態
+                Web--&gt;&gt;Visitor: 顯示成功結果；網站不收款
+                API-&gt;&gt;Mail: 寄送申請確認信
+                Mail--&gt;&gt;Visitor: Email確認通知（寄送服務待選）
+            else 寫入失敗
+                API--&gt;&gt;Web: 回傳提交失敗
+                Web--&gt;&gt;Visitor: 保留表單並提供重試
+            end
+        else 登入取消、驗證失敗或收件已關閉
+            Web--&gt;&gt;Visitor: 說明原因並保留可修正欄位
+        end
+    else 低門檻意向登記
+        Visitor-&gt;&gt;Web: 填寫基本資料、性別、照片與產品／月份
+        Web-&gt;&gt;API: 提交意向資料及必要告知
+        API-&gt;&gt;DB: 建立獨立意向登記
+        DB--&gt;&gt;API: 登記結果
+        API--&gt;&gt;Web: 回傳送出狀態
+        Note over Web,API: Email／電話規則與確認通知方式尚待定義
+    else 社群候補或節目海選意向
+        Visitor-&gt;&gt;Web: 提交獨立通知／海選意向表單
+        Web-&gt;&gt;API: 提交表單與用途同意
+        API-&gt;&gt;DB: 建立對應類型的獨立紀錄
+        DB--&gt;&gt;API: 登記結果
+        API--&gt;&gt;Web: 回傳送出結果
+        Note over Visitor,Web: 海選送出不等於拍攝授權；初審後才提供詳細資格
+    end
+
+    Operator-&gt;&gt;CRM: 檢視申請／意向、更新狀態、記錄聯絡
+    CRM-&gt;&gt;API: 查詢或更新指定紀錄
+    API-&gt;&gt;DB: 讀取／寫入紀錄
+    API-&gt;&gt;Audit: 記錄檢視、修改、匯出、刪除事件
+    Audit--&gt;&gt;API: 稽核事件已記錄
+    API--&gt;&gt;CRM: 回傳紀錄與操作結果
+    Note over Operator,CRM: 所有授權營運人員可查看全部CRM資料；不得稱為人員隔離
+    Operator--&gt;&gt;Visitor: 人工聯絡；確認後另行通知付款安排
+
+    opt 四幕活動之錄音與報告（活動服務流程；供應商待定）
+        Visitor-&gt;&gt;EventTeam: 報名前明確同意錄音
+        EventTeam-&gt;&gt;Recorder: 活動錄音／必要轉錄
+        Note over EventTeam,Recorder: 用途限AI個人報告與品質檢視；不作節目素材
+        Recorder--&gt;&gt;ReportAI: 傳送核准處理所需音訊／暫存逐字稿
+        ReportAI--&gt;&gt;EventTeam: 產生個人報告草稿
+        EventTeam-&gt;&gt;EventTeam: 指定授權人員進行品質檢視
+        EventTeam-&gt;&gt;DB: 保存音檔及可識別報告的活動結束日／刪除日期
+        Note over Recorder,DB: 服務商、逐字稿暫存及刪除、本人交付方式待核定；核定前不得傳送真實錄音
+        EventTeam-&gt;&gt;DB: 活動結束日起滿3年刪除音檔及可識別報告
+    end</pre></details></section><section class="panel" id="er"><h2>核心資料實體與關係</h2><p class="desc">申請與活動實體、同意紀錄、錄音報告資料及 CRM 稽核關聯。</p><div class="diagram"><pre class="mermaid">erDiagram
+    PRODUCT ||--o{ MONTHLY_SESSION : offers
+    PRODUCT ||--o{ APPLICATION : receives
+    MONTHLY_SESSION ||--o{ APPLICATION_MONTH : selected_for
+    APPLICATION ||--|{ APPLICATION_MONTH : selects
+    APPLICATION ||--|{ APPLICATION_PHOTO : includes
+    APPLICATION ||--o| APPLICATION_PROFILE : optionally_has
+    APPLICATION ||--o{ RESUME_FILE : may_attach
+    APPLICATION ||--|{ CONSENT_RECORD : records
+    APPLICATION ||--o{ CONTACT_LOG : has
+    INTENT_REGISTRATION ||--o{ INTENT_MONTH : selects
+    MONTHLY_SESSION ||--o{ INTENT_MONTH : interested_in
+    INTENT_REGISTRATION ||--|{ INTENT_PHOTO : includes
+    INTENT_REGISTRATION ||--o{ CONTACT_LOG : has
+    COMMUNITY_NOTICE ||--o{ CONTACT_LOG : has
+    CASTING_INTEREST ||--o{ CONTACT_LOG : has
+    EVENT_SESSION ||--o{ EVENT_RECORDING : generates
+    EVENT_SESSION ||--o{ EVENT_REPORT : produces
+    EVENT_RECORDING ||--o{ EVENT_REPORT : source_for
+    APPLICATION ||--o{ EVENT_RECORDING : participant_audio
+    CONSENT_RECORD ||--o{ EVENT_RECORDING : authorizes
+    CRM_OPERATOR ||--o{ CONTACT_LOG : writes
+    CRM_OPERATOR ||--o{ AUDIT_EVENT : performs
+
+    PRODUCT {
+        string id PK
+        string product_type
+        string name_zh
+        string name_en
+        decimal suggested_price
+        string price_unit
+        string public_status
+    }
+    MONTHLY_SESSION {
+        string id PK
+        string product_id FK
+        string month_key
+        int capacity_internal
+        string public_status
+        bool intake_open
+        string area_label
+        datetime date_confirmed_at
+    }
+    APPLICATION {
+        string id PK
+        string product_id FK
+        string line_subject_id
+        string entry_mode
+        string display_name
+        string email
+        string phone_optional
+        int exact_age
+        string gender
+        bool adult_single_declaration
+        string status
+        datetime submitted_at
+    }
+    APPLICATION_MONTH {
+        string id PK
+        string application_id FK
+        string session_id FK
+        string status
+        datetime selected_at
+    }
+    APPLICATION_PHOTO {
+        string id PK
+        string application_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        int display_order
+        datetime uploaded_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    APPLICATION_PROFILE {
+        string application_id PK, FK
+        string occupation_category
+        string education_tags_json
+        string education_free_text
+        string values_tags_json
+        string values_free_text
+        string self_introduction
+        string relationship_expectations
+        datetime confirmed_at
+    }
+    RESUME_FILE {
+        string id PK
+        string application_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        datetime uploaded_at
+        string parse_status
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CONSENT_RECORD {
+        string id PK
+        string application_id FK
+        string consent_type
+        string document_version
+        bool accepted
+        datetime accepted_at
+    }
+    INTENT_REGISTRATION {
+        string id PK
+        string display_name
+        string email_optional
+        string phone_optional
+        int exact_age
+        string gender
+        bool adult_single_declaration
+        string status
+        datetime submitted_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    INTENT_MONTH {
+        string id PK
+        string intent_id FK
+        string session_id FK
+        datetime selected_at
+    }
+    INTENT_PHOTO {
+        string id PK
+        string intent_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        int display_order
+        datetime uploaded_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    COMMUNITY_NOTICE {
+        string id PK
+        string display_name
+        string contact_value
+        string status
+        datetime submitted_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CASTING_INTEREST {
+        string id PK
+        string display_name
+        string contact_value
+        string review_status
+        datetime submitted_at
+        datetime detail_shared_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    EVENT_SESSION {
+        string id PK
+        string product_id FK
+        string month_key
+        string act_name
+        datetime starts_at
+        datetime ends_at
+        bool recording_consent_required
+    }
+    EVENT_RECORDING {
+        string id PK
+        string event_session_id FK
+        string participant_application_id FK
+        string storage_key
+        string consent_record_id FK
+        string permitted_purpose
+        datetime captured_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    EVENT_REPORT {
+        string id PK
+        string event_session_id FK
+        string recording_id FK
+        string participant_application_id FK
+        string storage_key
+        string report_status
+        datetime created_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CONTACT_LOG {
+        string id PK
+        string application_id FK
+        string intent_id FK
+        string community_notice_id FK
+        string casting_interest_id FK
+        string operator_id FK
+        string channel
+        string note
+        datetime contacted_at
+    }
+    CRM_OPERATOR {
+        string id PK
+        string email
+        string status
+        datetime created_at
+    }
+    AUDIT_EVENT {
+        string id PK
+        string operator_id FK
+        string action
+        string record_type
+        string record_id
+        datetime occurred_at
+        string reason
+    }</pre></div><details class="source"><summary>查看 Mermaid 原始碼</summary><pre>erDiagram
+    PRODUCT ||--o{ MONTHLY_SESSION : offers
+    PRODUCT ||--o{ APPLICATION : receives
+    MONTHLY_SESSION ||--o{ APPLICATION_MONTH : selected_for
+    APPLICATION ||--|{ APPLICATION_MONTH : selects
+    APPLICATION ||--|{ APPLICATION_PHOTO : includes
+    APPLICATION ||--o| APPLICATION_PROFILE : optionally_has
+    APPLICATION ||--o{ RESUME_FILE : may_attach
+    APPLICATION ||--|{ CONSENT_RECORD : records
+    APPLICATION ||--o{ CONTACT_LOG : has
+    INTENT_REGISTRATION ||--o{ INTENT_MONTH : selects
+    MONTHLY_SESSION ||--o{ INTENT_MONTH : interested_in
+    INTENT_REGISTRATION ||--|{ INTENT_PHOTO : includes
+    INTENT_REGISTRATION ||--o{ CONTACT_LOG : has
+    COMMUNITY_NOTICE ||--o{ CONTACT_LOG : has
+    CASTING_INTEREST ||--o{ CONTACT_LOG : has
+    EVENT_SESSION ||--o{ EVENT_RECORDING : generates
+    EVENT_SESSION ||--o{ EVENT_REPORT : produces
+    EVENT_RECORDING ||--o{ EVENT_REPORT : source_for
+    APPLICATION ||--o{ EVENT_RECORDING : participant_audio
+    CONSENT_RECORD ||--o{ EVENT_RECORDING : authorizes
+    CRM_OPERATOR ||--o{ CONTACT_LOG : writes
+    CRM_OPERATOR ||--o{ AUDIT_EVENT : performs
+
+    PRODUCT {
+        string id PK
+        string product_type
+        string name_zh
+        string name_en
+        decimal suggested_price
+        string price_unit
+        string public_status
+    }
+    MONTHLY_SESSION {
+        string id PK
+        string product_id FK
+        string month_key
+        int capacity_internal
+        string public_status
+        bool intake_open
+        string area_label
+        datetime date_confirmed_at
+    }
+    APPLICATION {
+        string id PK
+        string product_id FK
+        string line_subject_id
+        string entry_mode
+        string display_name
+        string email
+        string phone_optional
+        int exact_age
+        string gender
+        bool adult_single_declaration
+        string status
+        datetime submitted_at
+    }
+    APPLICATION_MONTH {
+        string id PK
+        string application_id FK
+        string session_id FK
+        string status
+        datetime selected_at
+    }
+    APPLICATION_PHOTO {
+        string id PK
+        string application_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        int display_order
+        datetime uploaded_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    APPLICATION_PROFILE {
+        string application_id PK, FK
+        string occupation_category
+        string education_tags_json
+        string education_free_text
+        string values_tags_json
+        string values_free_text
+        string self_introduction
+        string relationship_expectations
+        datetime confirmed_at
+    }
+    RESUME_FILE {
+        string id PK
+        string application_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        datetime uploaded_at
+        string parse_status
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CONSENT_RECORD {
+        string id PK
+        string application_id FK
+        string consent_type
+        string document_version
+        bool accepted
+        datetime accepted_at
+    }
+    INTENT_REGISTRATION {
+        string id PK
+        string display_name
+        string email_optional
+        string phone_optional
+        int exact_age
+        string gender
+        bool adult_single_declaration
+        string status
+        datetime submitted_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    INTENT_MONTH {
+        string id PK
+        string intent_id FK
+        string session_id FK
+        datetime selected_at
+    }
+    INTENT_PHOTO {
+        string id PK
+        string intent_id FK
+        string storage_key
+        string mime_type
+        int size_bytes
+        int display_order
+        datetime uploaded_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    COMMUNITY_NOTICE {
+        string id PK
+        string display_name
+        string contact_value
+        string status
+        datetime submitted_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CASTING_INTEREST {
+        string id PK
+        string display_name
+        string contact_value
+        string review_status
+        datetime submitted_at
+        datetime detail_shared_at
+        datetime related_event_ends_at
+        datetime scheduled_deletion_at
+    }
+    EVENT_SESSION {
+        string id PK
+        string product_id FK
+        string month_key
+        string act_name
+        datetime starts_at
+        datetime ends_at
+        bool recording_consent_required
+    }
+    EVENT_RECORDING {
+        string id PK
+        string event_session_id FK
+        string participant_application_id FK
+        string storage_key
+        string consent_record_id FK
+        string permitted_purpose
+        datetime captured_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    EVENT_REPORT {
+        string id PK
+        string event_session_id FK
+        string recording_id FK
+        string participant_application_id FK
+        string storage_key
+        string report_status
+        datetime created_at
+        datetime event_ends_at
+        datetime scheduled_deletion_at
+    }
+    CONTACT_LOG {
+        string id PK
+        string application_id FK
+        string intent_id FK
+        string community_notice_id FK
+        string casting_interest_id FK
+        string operator_id FK
+        string channel
+        string note
+        datetime contacted_at
+    }
+    CRM_OPERATOR {
+        string id PK
+        string email
+        string status
+        datetime created_at
+    }
+    AUDIT_EVENT {
+        string id PK
+        string operator_id FK
+        string action
+        string record_type
+        string record_id
+        datetime occurred_at
+        string reason
+    }</pre></details></section><aside class="notes"><h3>需要留意的待決事項</h3><ul><li>免費語音與城市夜正式報名流程、免費社群通知方式、海選資格及會籍權益仍待核准。</li><li>活動錄音服務商、逐字稿暫存與刪除、報告交付及拒絕錄音替代方案未定；核定前不處理真實錄音。</li><li>AI／履歷使用 OpenAI API 的方向已選，但模型、端點、留存、地區及跨境條件未核定。</li><li>所有資料依相關活動結束日起保存 3 年；意向、社群、海選、取消或未成行資料的起算事件仍待定。</li><li>CRM 授權營運人員可查看全部資料；這不代表人員或資料庫已隔離，存取／異動／匯出／刪除需稽核。</li></ul></aside><div class="fallback" id="fallback">Mermaid 圖表無法載入。請展開每張圖的「查看 Mermaid 原始碼」，或直接檢視 docs/flow.md。</div><p class="footer">依據 PRD v1.16。此為流程規劃文件，未表示外部登入、AI、郵件、CRM 或錄音服務已完成整合。</p></main><script>
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))}));
+(async()=>{try{const m=await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');m.default.initialize({startOnLoad:false,theme:'base',securityLevel:'strict',themeVariables:{primaryColor:'#f4f7f2',primaryTextColor:'#263d35',primaryBorderColor:'#789182',lineColor:'#688375',secondaryColor:'#edf3ed',tertiaryColor:'#faf9f3',fontFamily:'system-ui, sans-serif'},flowchart:{htmlLabels:true,curve:'basis'},sequence:{showSequenceNumbers:true},er:{layoutDirection:'TB'}});await m.default.run({querySelector:'.mermaid'});}catch(e){document.querySelector('#fallback').style.display='block';}})();
+</script></body></html>

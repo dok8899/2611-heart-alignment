@@ -1,0 +1,56 @@
+name: Deploy FastAPI backend to Cloud Run
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-backend.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: cloud-run-backend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticate to Google Cloud with Workload Identity Federation
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SERVICE_ACCOUNT }}
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      - name: Deploy container source to Cloud Run
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_REGION: ${{ vars.GCP_REGION }}
+          CLOUD_RUN_SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
+          CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT: ${{ secrets.CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT }}
+          PAGES_ORIGIN: ${{ vars.PAGES_ORIGIN }}
+        run: |
+          set -euo pipefail
+          : "${GCP_PROJECT_ID:?Set the GCP_PROJECT_ID secret}"
+          : "${GCP_REGION:?Set the GCP_REGION repository variable}"
+          : "${CLOUD_RUN_SERVICE:?Set the CLOUD_RUN_SERVICE repository variable}"
+          : "${CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT:?Set the CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT secret}"
+          : "${PAGES_ORIGIN:?Set PAGES_ORIGIN, e.g. https://dok8899.github.io}"
+          gcloud run deploy "$CLOUD_RUN_SERVICE" \
+            --source backend \
+            --project "$GCP_PROJECT_ID" \
+            --region "$GCP_REGION" \
+            --platform managed \
+            --service-account "$CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT" \
+            --allow-unauthenticated \
+            --port 8080 \
+            --set-env-vars "APP_ENV=production,DATA_STORE_BACKEND=firestore,GOOGLE_CLOUD_PROJECT=$GCP_PROJECT_ID,FIRESTORE_DATABASE=(default),ADMIN_AUTH_MODE=firebase,CORS_ORIGINS=[\"$PAGES_ORIGIN\"]"
